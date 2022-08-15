@@ -1,7 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 
 export class UsersService {
   private users = [{ name: 'albert', id: '1' }];
+  private readonly logger = new Logger(UsersService.name);
 
   async findAll() {
     return this.users;
@@ -18,6 +19,7 @@ export class UsersService {
   }
 
   async createUser(createUserDto: any) {
+    this.logger.log('Creating user in the users service');
     return {};
   }
 

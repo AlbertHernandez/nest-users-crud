@@ -5,15 +5,18 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Logger,
   Param,
   Patch,
   Post,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from "./dtos/create-user.dto";
+import { CreateUserDto } from './dtos/create-user.dto';
 
 @Controller('users')
 export class UsersController {
+  private readonly logger = new Logger(UsersService.name);
+
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
@@ -28,7 +31,10 @@ export class UsersController {
 
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto) {
-    return await this.usersService.createUser(createUserDto);
+    this.logger.log('Received http request for creating a user');
+    const user = await this.usersService.createUser(createUserDto);
+    this.logger.log('Finalized http request for creating a user');
+    return user;
   }
 
   @Patch(':id')
