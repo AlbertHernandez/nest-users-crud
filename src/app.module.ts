@@ -8,37 +8,16 @@ import {
   CORRELATION_ID_KEY,
   CorrelationIdMiddleware,
 } from './correlation-id.middleware';
+import { ConfigModule } from '@nestjs/config';
+import { configLoader } from './config/config-loader';
+import { envSchema } from './config/env-schema';
+import { loggerOptions } from './logger/logger-options';
+import { configOptions } from './config/config-options';
 
 @Module({
   imports: [
-    LoggerModule.forRoot({
-      pinoHttp: {
-        transport:
-          process.env.NODE_ENV !== 'production'
-            ? {
-                target: 'pino-pretty',
-                options: {
-                  messageKey: 'message',
-                },
-              }
-            : undefined,
-        messageKey: 'message',
-        autoLogging: false,
-        serializers: {
-          req() {
-            return undefined;
-          },
-          res() {
-            return undefined;
-          },
-        },
-        customProps: function (req) {
-          return {
-            correlationId: req.headers[CORRELATION_ID_KEY],
-          };
-        },
-      },
-    }),
+    LoggerModule.forRoot(loggerOptions),
+    ConfigModule.forRoot(configOptions),
   ],
   controllers: [AppController, UsersController],
   providers: [AppService, UsersService],
