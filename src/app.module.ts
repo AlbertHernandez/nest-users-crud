@@ -13,11 +13,13 @@ import { configLoader } from './config/config-loader';
 import { envSchema } from './config/env-schema';
 import { loggerOptions } from './logger/logger-options';
 import { configOptions } from './config/config-options';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     LoggerModule.forRoot(loggerOptions),
     ConfigModule.forRoot(configOptions),
+    AuthModule,
   ],
   controllers: [AppController, UsersController],
   providers: [AppService, UsersService],
