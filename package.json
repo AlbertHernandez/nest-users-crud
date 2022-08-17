@@ -26,6 +26,8 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@ntegral/nestjs-sentry": "^3.0.7",
+    "@sentry/node": "^6.19.7",
     "@types/passport-local": "^1.0.34",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
