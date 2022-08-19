@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { LoggerModule } from 'nestjs-pino';
 import { CorrelationIdMiddleware } from './correlation-id.middleware';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { loggerOptions } from './logger/logger-options';
 import { configOptions } from './config/config-options';
 import { AuthModule } from './auth/auth.module';
@@ -11,6 +11,7 @@ import { SentryMiddleware } from './sentry.middleware';
 import { UserModule } from './users/user.module';
 import { sentryOptions } from './sentry/sentry-options';
 import { sentryInterceptorOptions } from './sentry/sentry-interceptor-options';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -19,6 +20,17 @@ import { sentryInterceptorOptions } from './sentry/sentry-interceptor-options';
     ConfigModule.forRoot(configOptions),
     AuthModule,
     SentryModule.forRootAsync(sentryOptions),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => {
+        const mongoConfig = configService.get('mongo');
+
+        return {
+          uri: mongoConfig.uri,
+        };
+      },
+      inject: [ConfigService],
+    }),
   ],
   providers: [
     ConfigModule,

@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  mongo:
+    container_name: mongo
+    image: 'mongo:4.4'
+    environment:
+      - MONGO_DATA_DIR=/data/db
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo:/data/db
+
+volumes:
+  mongo:
