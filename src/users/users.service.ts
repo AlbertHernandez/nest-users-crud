@@ -1,5 +1,6 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 
+@Injectable()
 export class UsersService {
   private users = [{ name: 'albert', id: '1' }];
   private readonly logger = new Logger(UsersService.name);
