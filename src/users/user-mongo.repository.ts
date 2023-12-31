@@ -3,7 +3,6 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './entities/user.entity';
 import { UserDocument, UserModel } from './schemas/user.schema';
-import { LeanDocument } from 'mongoose';
 import { UserRepository } from './user.repository';
 
 @Injectable()
@@ -21,7 +20,7 @@ export class UserMongoRepository implements UserRepository {
     return this.mapToUser(userCreated);
   }
 
-  private mapToUser(rawUser: LeanDocument<UserDocument>): User {
+  private mapToUser(rawUser: UserDocument): User {
     const user = new User();
 
     user.id = rawUser.id;
